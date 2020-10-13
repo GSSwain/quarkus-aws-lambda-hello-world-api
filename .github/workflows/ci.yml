@@ -17,7 +17,12 @@ jobs:
         run: gu install native-image
       - name: Build native executable
         run: mvn package -Pnative
-      - name: Install sam-cli
+      - name: Install Python 3 (required for AWS SAM CLI)
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+          architecture: 'x64'
+      - name: Install AWS SAM CLI
         run: pip install aws-sam-cli
       - name: SAM Package
         run: sam package --template-file target/sam.native.yaml --output-template-file packaged.yaml --s3-bucket $SAM_LAMBDA_ARTIFACT_BUCKET
